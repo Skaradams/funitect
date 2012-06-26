@@ -1,3 +1,4 @@
+import os
 
 from django.conf.urls.defaults import *
 from django.contrib import admin
@@ -12,4 +13,8 @@ for resource_name in views.__all__:
 urlpatterns = patterns('',
     (r'^api/', include(api.urls)),
     (r'^admin/', include(admin.site.urls)),
+    url(r'^(.*)$', 'django.views.static.serve', {
+        'document_root': os.path.join(os.path.dirname(__file__), 'front'),
+        'show_indexes': True
+    }),
 )

@@ -1,11 +1,12 @@
-import json
 from tastypie.resources import ModelResource
 from tastypie.authentication import BasicAuthentication
 from tastypie.authorization import DjangoAuthorization
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from funitect.service import models
 
 __all__ = (
-    'ItemResource',
+    'GameResource',
+    'ElementKindResource',
 )
 
 
@@ -14,8 +15,9 @@ class ResourceAuthentication(BasicAuthentication):
     def is_authenticated(self, request, **kwargs):
         if request.user.is_authenticated():
             return True
-        return super(ResourceAuthentication, self).is_authenticated(
-                                                        request, **kwargs)
+        return super(
+            ResourceAuthentication, self
+        ).is_authenticated(request, **kwargs)
 
 
 class OnlyUserContentAuthorization(DjangoAuthorization):
@@ -27,12 +29,25 @@ class OnlyUserContentAuthorization(DjangoAuthorization):
         return object_list.none()
 
 
-class ItemResource(ModelResource):
+class GameResource(ModelResource):
 
     class Meta:
-        queryset = models.Item.objects.all()
-        resource_name = 'game-info'
+        queryset = models.Game.objects.all()
+        resource_name = 'game'
         allowed_methods = ['get', 'post', 'put']
         authentication = ResourceAuthentication()
         authorization = DjangoAuthorization()
 
+class ElementKindResource(ModelResource):
+
+    class Meta:
+        queryset = models.ElementKind.objects.all()
+        resource_name = 'element-kind'
+        allowed_methods = ['get', 'post', 'put']
+        authentication = ResourceAuthentication()
+        authorization = DjangoAuthorization()
+
+    def get_object_list(self, request):
+        return super(
+            ElementKindResource, self
+        ).get_object_list(request).filter(game__id=request.GET['game'])
