@@ -1,23 +1,22 @@
-Ext.define('Funitect.store.ElementKinds', {
+Ext.define('Funitect.store.Elements', {
     extend: 'Ext.data.Store',
 
     requires: [
-        'Funitect.model.ElementKind',
+        'Funitect.model.Element',
     ],
 
     constructor: function() {
-        this.getProxy().extraParams = {
-            game: Funitect.currentGame.data.id,
-        }
         this.callParent(arguments);
+        this.getProxy().extraParams = {
+            kind: this.elementKind.data.id,
+        }
     },
 
-    model: 'Funitect.model.ElementKind',
-
+    model: 'Funitect.model.Element',
 
     proxy: {
         type: 'ajax',
-        url: '/api/v1/element-kind/',
+        url: '/api/v1/element/',
         reader: {
             type: 'json',
             root: 'objects',

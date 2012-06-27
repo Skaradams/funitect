@@ -7,6 +7,7 @@ from funitect.service import models
 __all__ = (
     'GameResource',
     'ElementKindResource',
+    'ElementResource',
 )
 
 
@@ -51,3 +52,17 @@ class ElementKindResource(ModelResource):
         return super(
             ElementKindResource, self
         ).get_object_list(request).filter(game__id=request.GET['game'])
+
+class ElementResource(ModelResource):
+
+    class Meta:
+        queryset = models.Element.objects.all()
+        resource_name = 'element'
+        allowed_methods = ['get', 'post', 'put']
+        authentication = ResourceAuthentication()
+        authorization = DjangoAuthorization()
+
+    def get_object_list(self, request):
+        return super(
+            ElementResource, self
+        ).get_object_list(request).filter(kind__id=request.GET['kind'])

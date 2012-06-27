@@ -7,30 +7,76 @@ __all__ = (
     'UserGame',
     'ElementKind',
     'Element',
+    'ElementComment',
+    'ElementSketch',
     'EventKind',
     'Event',
     'EventElement',
-    'Comment'
+    'EventComment',
+    'EventNotification',
+    'EventCommentNotification',
+    'ElementNotification',
+    'ElementCommentNotification',
+    'ElementSketchNotification',
 )
 
 
+"""
+Game related models
+"""
+
 class Game(models.Model):
     name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
 
 
 class UserGame(models.Model):
     user = models.ForeignKey(User)
     game = models.ForeignKey(Game)
 
+    def __str__(self):
+        return self.name
+
+
+"""
+Element related models
+"""
+
 
 class ElementKind(models.Model):
     name = models.CharField(max_length=256)
     game = models.ForeignKey(Game)
 
+    def __str__(self):
+        return self.name
+
 
 class Element(models.Model):
+    user = models.ForeignKey(User)
     name = models.CharField(max_length=256)
     kind = models.ForeignKey(ElementKind)
+
+    def __str__(self):
+        return self.name
+
+
+class ElementComment(models.Model):
+    element = models.ForeignKey(Element)
+    text = models.TextField()
+    user = models.ForeignKey(User)
+
+
+class ElementSketch(models.Model):
+    element = models.ForeignKey(Element)
+    sketch_source = models.CharField(max_length=256)
+    user = models.ForeignKey(User)
+
+
+"""
+Event related models
+"""
 
 
 class EventKind(models.Model):
@@ -39,6 +85,7 @@ class EventKind(models.Model):
 
 
 class Event(models.Model):
+    user = models.ForeignKey(User)
     kind = models.ForeignKey(EventKind)
 
 
@@ -48,6 +95,42 @@ class EventElement(models.Model):
     identity = models.CharField(max_length=32)
 
 
-class Comment(models.Model):
+class EventComment(models.Model):
     event = models.ForeignKey(Event)
     text = models.TextField()
+    user = models.ForeignKey(User)
+
+
+"""
+Dashboard related models
+"""
+
+
+class EventNotification(models.Model):
+    game = models.ForeignKey(Game)
+    timestamp = models.IntegerField()
+    event = models.ForeignKey(Event)
+
+
+class EventCommentNotification(models.Model):
+    game = models.ForeignKey(Game)
+    timestamp = models.IntegerField()
+    comment = models.ForeignKey(EventComment)
+
+
+class ElementNotification(models.Model):
+    game = models.ForeignKey(Game)
+    timestamp = models.IntegerField()
+    element = models.ForeignKey(Element)
+
+
+class ElementCommentNotification(models.Model):
+    game = models.ForeignKey(Game)
+    timestamp = models.IntegerField()
+    comment = models.ForeignKey(ElementComment)
+
+
+class ElementSketchNotification(models.Model):
+    game = models.ForeignKey(Game)
+    timestamp = models.IntegerField()
+    sketch = models.ForeignKey(ElementSketch)

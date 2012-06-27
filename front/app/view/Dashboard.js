@@ -1,5 +1,5 @@
 Ext.define('Funitect.view.Dashboard', {
-    extend: 'Ext.tab.Tab',
+    extend: 'Ext.panel.Panel',
     
     xtype: 'dashboard',
     
@@ -7,6 +7,6 @@ Ext.define('Funitect.view.Dashboard', {
 
     closable: false,
 
-    frame: true,
+    layout: 'vbox',
 
 });

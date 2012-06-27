@@ -12,14 +12,12 @@ Ext.define('Funitect.controller.Launcher', {
         this.gamesWindow = new Funitect.view.GamesWindow();
         var games = new Funitect.store.Games({listeners: {
             load: function() {
-                
                 games.each(function(game) {
                     var selector = '#' + me.gamesWindow.addGame(game);
                     listeners = {};
                     listeners[selector] = {click: me.onChooseGame};
                     me.control(listeners);
                 })
-                
                 me.gamesWindow.show();
             }
         }});
