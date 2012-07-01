@@ -70,7 +70,7 @@ class ElementComment(models.Model):
 
 class ElementSketch(models.Model):
     element = models.ForeignKey(Element)
-    sketch_source = models.CharField(max_length=256)
+    src = models.CharField(max_length=256)
     user = models.ForeignKey(User)
 
 

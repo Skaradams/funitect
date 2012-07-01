@@ -3,6 +3,7 @@ Ext.define('Funitect.view.ElementsTab', {
     
     requires: [
     	'Funitect.store.Elements',
+    	'Funitect.view.ElementTab',
     ],
 
     xtype: 'elements-tab',
@@ -34,6 +35,11 @@ Ext.define('Funitect.view.ElementsTab', {
 	                		text: element.data.name,
 	                		height: 40,
 	                		width: 600,
+	                		handler: function() {
+	                			var elementTab = new Funitect.view.ElementTab({element: element});
+	                			me.workspace.add(elementTab);
+	                			elementTab.show();
+	                		},
 	                		style: {
 		                		marginTop: 40,
 	                		},

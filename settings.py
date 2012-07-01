@@ -5,6 +5,11 @@ import json
 with open(os.path.join(os.path.expanduser('~'), '.funitectrc')) as funitectrc:
     config = json.loads(funitectrc.read())
 
+SKETCHES_DIR = os.path.join(
+    os.path.dirname(__file__),
+    'sketches'
+)
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -110,7 +115,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'django_extensions',
     'funitect.service',
     'south',
     'tastypie'

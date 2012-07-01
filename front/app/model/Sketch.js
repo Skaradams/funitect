@@ -1,8 +1,8 @@
-Ext.define('Funitect.model.Element', {
+Ext.define('Funitect.model.Sketch', {
     extend: 'Ext.data.Model',
 
     fields: [
-        'name',
+    	'src',
     ],
 
 });

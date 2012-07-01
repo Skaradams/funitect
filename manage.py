@@ -16,4 +16,9 @@ except ImportError:
 import settings
 
 if __name__ == "__main__":
+    import os
+    try:
+        os.makedirs(settings.SKETCHES_DIR)
+    except:
+        pass        
     execute_manager(settings)

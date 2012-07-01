@@ -1,3 +1,5 @@
 *.pyc
 *.nja
+sketches
+service/migrations
 

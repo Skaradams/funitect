@@ -16,7 +16,7 @@ Ext.define('Funitect.view.Workspace', {
 
     
     layout: 'fit',
-    
+
     items: [
         {xtype: 'dashboard'},
     ],
@@ -27,7 +27,7 @@ Ext.define('Funitect.view.Workspace', {
         var elementKinds = new Funitect.store.ElementKinds({listeners: {
             load: function() {
                 elementKinds.each(function(elementKind) {
-                    me.add({xtype: 'elements-tab', elementKind: elementKind, cls: 'elemtab'});
+                    me.add({xtype: 'elements-tab', elementKind: elementKind, workspace: me});
                 });
             }
         }});
