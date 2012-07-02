@@ -36,9 +36,6 @@ class UserGame(models.Model):
     user = models.ForeignKey(User)
     game = models.ForeignKey(Game)
 
-    def __str__(self):
-        return self.name
-
 
 """
 Element related models
