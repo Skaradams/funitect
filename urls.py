@@ -19,6 +19,10 @@ urlpatterns = patterns('',
     url(r'^upload-sketch/$', 'funitect.service.views.upload_sketch'),
     (r'^api/', include(api.urls)),
     (r'^admin/', include(admin.site.urls)),
+    url(r'^sketches/(.*)$', 'django.views.static.serve', {
+        'document_root': settings.SKETCHES_DIR,
+        'show_indexes': False
+    }),
     url(r'^(.*)$', 'django.views.static.serve', {
         'document_root': os.path.join(os.path.dirname(__file__), 'front'),
         'show_indexes': True

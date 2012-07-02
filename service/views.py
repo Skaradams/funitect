@@ -1,10 +1,11 @@
 import os
 import uuid
 import hashlib
+import Image
 
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django import http
 
 from tastypie import fields
 from tastypie.resources import ModelResource
@@ -26,13 +27,21 @@ __all__ = (
 
 @csrf_exempt 
 def upload_sketch(request):
-    response = HttpResponse(status=200)
+    response = http.HttpResponse(status=200)
     if request.method == 'POST':
         if 'sketch' in request.FILES:
-            file_name = hashlib.md5(str(uuid.uuid1())).hexdigest()
+            file_name = hashlib.md5(
+                str(uuid.uuid1())
+            ).hexdigest() + '_' + request.FILES['sketch'].name
             file_path = os.path.join(settings.SKETCHES_DIR, file_name)
-            with open(file_path, 'wb') as sketch:
-                sketch.write(request.FILES['sketch'].read())
+            tmp_file_path = os.path.join('/tmp', file_name)
+            with open(tmp_file_path, 'wb') as sketch_tmp:
+                sketch_tmp.write(request.FILES['sketch'].read())
+            try:
+                image = Image.open(tmp_file_path)
+                image.save(file_path)
+            except:
+                raise http. HttpResponseBadRequest()
             response.write('{"url": "/sketches/%s"}' % file_name)
         else:
             response.write('{"error": "No sketch file has been given"}' % file_name)
@@ -66,6 +75,7 @@ class GameResource(ModelResource):
         authentication = ResourceAuthentication()
         authorization = DjangoAuthorization()
 
+
 class ElementKindResource(ModelResource):
 
     class Meta:
@@ -79,6 +89,7 @@ class ElementKindResource(ModelResource):
         return super(
             ElementKindResource, self
         ).get_object_list(request).filter(game__id=request.GET['game'])
+
 
 class ElementResource(ModelResource):
 
@@ -125,11 +136,20 @@ class SketchResource(ModelResource):
         authorization = DjangoAuthorization()
 
     def dehydrate(self, bundle):
-        bundle.data['user'] = bundle.obj.user.username
+        if bundle.request.method == 'GET':
+            bundle.data['user'] = bundle.obj.user.username
+        return bundle
+
+    def hydrate(self, bundle):
+        if bundle.request.user.is_authenticated() and bundle.request.method == 'POST':
+            bundle.obj.user = bundle.request.user
+            bundle.obj.element = models.Element.objects.get(id=int(bundle.request.GET['element']))
+            bundle.obj.src = bundle.request.GET['src']
         return bundle
 
     def get_object_list(self, request):
-        return super(
-            SketchResource, self
-        ).get_object_list(request).filter(element__id=request.GET['element'])
+        obj_list = super(SketchResource, self).get_object_list(request)
+        if request.method == 'GET':
+            obj_list = obj_list.filter(element__id=request.GET['element'])
+        return obj_list
 

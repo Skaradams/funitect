@@ -47,7 +47,7 @@ Ext.define('Funitect.view.ElementTab', {
                             text: 'Add new sketch',
                             handler: function() {
                                 var newSketchWindow = new Funitect.view.NewSketchWindow({
-                                    component: me.component,
+                                    element: me.element,
                                 });
                                 newSketchWindow.show();
                             },
@@ -77,10 +77,7 @@ Ext.define('Funitect.view.ElementTab', {
                 }
             }
         });
-
-
         me.add(hContainer);
-        console.log(this.element.data.comments);
     },
 
 });

@@ -1,6 +1,10 @@
 Ext.define('Funitect.view.NewSketchWindow', {
     extend: 'Ext.window.Window',
 
+    requires: [
+        'Funitect.model.Sketch',
+    ],
+
     layout: 'fit',
 
     title: 'Add new sketch from your hard disk',
@@ -10,13 +14,14 @@ Ext.define('Funitect.view.NewSketchWindow', {
 
     width: 300,
 
-    items: [
-        {
+    constructor: function() {
+        var me = this;
+        this.callParent(arguments);
+        this.add({
             xtype: 'form',
             layout: 'hbox',
             items: [
                 {xtype: 'filefield', flex: 2, name: 'sketch'},
-                {xtype: 'hidden', name: 'component', id: 'component-field'},
             ],
             buttons: [{
                 text: 'Upload',
@@ -26,23 +31,34 @@ Ext.define('Funitect.view.NewSketchWindow', {
                         form.submit({
                             url: '/upload-sketch/',
                             method: 'post',
-                            params: {
-                                format: 'json',
-                            },
                             waitMsg: 'Uploading new sketch ...',
-                            success: function(fp, o) {
-                                Ext.Msg.alert('Success', 'Your photo "' + o.result.file + '" has been uploaded.');
-                            }
+                            success: function(form, action) {
+                                me.onUploadResponse(action.result);
+                            },
+                            failure: function(form, action) {
+                                me.onUploadResponse(action.result);
+                            },
                         });
                     }
                 },
             }],
-        }
-    ],
+        });
+    },
 
-    show: function() {
-        this.callParent(arguments);
-        Ext.getCmp('component-field').setValue(this.component.data.id);
+    onUploadResponse: function(result) {
+        var me = this;
+        var sketch = new Funitect.model.Sketch();
+        console.log(result.url);
+        sketch.getProxy().extraParams = {
+            element: me.element.data.id,
+            src: 'http://' + document.location.host + result.url,
+        }
+        sketch.save({
+            callback: function() {
+                console.log('close');
+                me.close();
+            }
+        });
     },
 
 });
