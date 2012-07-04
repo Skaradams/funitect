@@ -56,7 +56,6 @@ Ext.define('Funitect.view.CommentsFrame', {
                 });
             }
         });
-        window.lastComment = Ext.getCmp('comment-' + comments.last().data.id);
         this.scrollBy(0, 10000, true);
 
     }

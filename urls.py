@@ -22,14 +22,15 @@ urlpatterns = patterns('',
 
     url(r'^static/(.*)$', 'django.views.static.serve', {
         'document_root': os.path.join(os.path.dirname(__file__), 'static'),
-        'show_indexes': False
     }),
     url(r'^sketches/(.*)$', 'django.views.static.serve', {
         'document_root': settings.SKETCHES_DIR,
-        'show_indexes': False
     }),
-    url(r'^(.*)$', 'django.views.static.serve', {
+    url(r'^front/(.*)$', 'django.views.static.serve', {
         'document_root': os.path.join(os.path.dirname(__file__), 'front'),
-        'show_indexes': True
     }),
+    url(r'^app/(.*)$', 'django.views.static.serve', {
+        'document_root': os.path.join(os.path.dirname(__file__), 'app'),
+    }),
+    url(r'.*', 'funitect.front.index'),
 )
