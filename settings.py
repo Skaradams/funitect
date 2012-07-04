@@ -2,7 +2,7 @@
 import os
 import json
 
-with open(os.path.join(os.path.expanduser('~'), '.funitectrc')) as funitectrc:
+with open(os.path.join(os.path.dirname(__file__), '.funitectrc')) as funitectrc:
     config = json.loads(funitectrc.read())
 
 SKETCHES_DIR = os.path.join(
