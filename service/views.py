@@ -100,6 +100,16 @@ class ElementResource(ModelResource):
         authentication = ResourceAuthentication()
         authorization = DjangoAuthorization()
 
+    def hydrate(self, bundle):
+        if bundle.request.user.is_authenticated() \
+                    and bundle.request.method == 'POST':
+            bundle.obj.user = bundle.request.user
+            bundle.obj.kind = models.ElementKind.objects.get(
+                id=int(bundle.request.GET['kind'])
+            )
+            bundle.obj.name = bundle.request.GET['name']
+        return bundle
+
     def get_object_list(self, request):
         return super(
             ElementResource, self

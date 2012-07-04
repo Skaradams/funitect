@@ -5,4 +5,13 @@ Ext.define('Funitect.model.Element', {
         'name',
     ],
 
+    proxy: {
+        type: 'ajax',
+        url: '/api/v1/element/',
+        writer: {
+            type: 'json',
+            root: 'objects',
+        },
+    },
+
 });

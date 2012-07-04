@@ -30,7 +30,7 @@ Ext.define('Funitect.view.Workspace', {
                 elementKinds.each(function(elementKind) {
                     me.add({xtype: 'elements-tab', elementKind: elementKind, workspace: me});
                 });
-                me.items.first().setActive(true);
+                me.items.first().show();
             }
         }});
     },

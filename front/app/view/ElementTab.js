@@ -74,7 +74,7 @@ Ext.define('Funitect.view.ElementTab', {
                                         var comment = new Funitect.model.ElementComment();
                                         comment.getProxy().extraParams = {
                                             element: me.element.data.id,
-                                            text: newNoteField.getValue(),
+                                            text: Ext.htmlEncode(newNoteField.getValue()),
                                         }
                                         comment.save({
                                             callback: function() {
