@@ -45,6 +45,7 @@ Ext.define('Funitect.view.CommentsFrame', {
                                 html: comment.data.text,
                                 cls: 'comment-text',
                             },
+                            width: window.innerWidth * 2 / 9,
                             style: {
                                 marginLeft: 10,
                             },
