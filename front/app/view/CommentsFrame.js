@@ -17,41 +17,47 @@ Ext.define('Funitect.view.CommentsFrame', {
     setComments: function(comments) {
         var me  = this;
         comments.each(function(comment) {
-            me.add({
-                xtype: 'container',
-                layout: 'vbox',
-
-                items: [
-                    {
-                        xtype: 'component',
-                        autoEl: {
-                            tag: 'span',
-                            html: comment.data.user,
-                            cls: 'comment-user',
+            if(!Ext.isObject(Ext.getCmp('comment-' + comment.data.id))) {
+                me.add({
+                    xtype: 'container',
+                    layout: 'vbox',
+                    autoHeight: true,
+                    id: 'comment-' + comment.data.id,
+                    items: [
+                        {
+                            xtype: 'component',
+                            autoEl: {
+                                tag: 'span',
+                                html: comment.data.user,
+                                cls: 'comment-user',
+                            },
+                            style: {
+                                fontSize: '110%',
+                                fontWeight: 'bold',
+                                marginBottom: 10,
+                                marginTop: 5,
+                            },
                         },
-                        style: {
-                            fontSize: '110%',
-                            fontWeight: 'bold',
-                            marginBottom: 10,
-                            marginTop: 5,
+                        {
+                            xtype: 'component',
+                            autoEl: {
+                                tag: 'span',
+                                html: comment.data.text,
+                                cls: 'comment-text',
+                            },
+                            style: {
+                                marginLeft: 10,
+                            },
                         },
-                    },
-                    {
-                        xtype: 'component',
-                        autoEl: {
-                            tag: 'span',
-                            html: comment.data.text,
-                            cls: 'comment-text',
-                        },
-                        style: {
-                            marginLeft: 10,
-                        },
-                    },
-                ],
-                style: {
-                    marginTop: 20,
-                }
-            })
+                    ],
+                    style: {
+                        marginTop: 20,
+                    }
+                });
+            }
         });
+        window.lastComment = Ext.getCmp('comment-' + comments.last().data.id);
+        this.scrollBy(0, 10000, true);
+
     }
 });

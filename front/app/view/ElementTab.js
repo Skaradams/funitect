@@ -15,9 +15,13 @@ Ext.define('Funitect.view.ElementTab', {
         var me = this;
         this.callParent(arguments);
         this.title = this.element.data.name;
-        var newNoteField = new Ext.form.TextField({name: 'note'});
+        var newNoteField = new Ext.form.field.TextArea({
+            name: 'note',
+            width: window.innerWidth / 5,
+            height: window.innerWidth / 10,
+        });
         var vContainer = new Ext.container.Container({layout: 'vbox'});
-        var commentsContainer = new Funitect.view.CommentsFrame();
+        this.commentsContainer = new Funitect.view.CommentsFrame();
         this.sketchesPreview = new Funitect.view.SketchesPreview({
             element: me.element,
         });
@@ -57,7 +61,7 @@ Ext.define('Funitect.view.ElementTab', {
                                 newSketchWindow.show();
                             },
                         },
-                        commentsContainer,
+                        me.commentsContainer,
                         {
                             xtype: 'form',
                             layout: 'hbox',
@@ -74,9 +78,13 @@ Ext.define('Funitect.view.ElementTab', {
                                         }
                                         comment.save({
                                             callback: function() {
+                                                me.updateComments();
                                             }
                                         });
 
+                                    },
+                                    style: {
+                                        marginLeft: 30,
                                     },
                                 },
                             ],
@@ -96,21 +104,22 @@ Ext.define('Funitect.view.ElementTab', {
                 marginTop: 50,
             },
         });
+        me.add(hContainer);
+        this.updateComments();
+    },
 
-        /*
-        Add comments
-        */
+
+    updateComments: function() {
+        var me = this;
         var comments = new Funitect.store.ElementComments({
             element: me.element,
             listeners: {
                 load: function() {
-                    commentsContainer.setComments(comments);
+                    me.commentsContainer.setComments(comments);
                 }
             }
         });
-        me.add(hContainer);
     },
-
 
     onNewSketch: function() {
         this.sketchesPreview.reset();

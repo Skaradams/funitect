@@ -1,7 +1,7 @@
 Ext.define('Funitect.view.Workspace', {
     extend: 'Ext.tab.Panel',
-    
-    
+
+
     requires: [
         'Funitect.view.Dashboard',
         'Funitect.view.ElementsTab',
@@ -15,11 +15,11 @@ Ext.define('Funitect.view.Workspace', {
     width: window.innerWidth,
     height: window.innerHeight,
 
-    
+
     layout: 'fit',
 
     items: [
-        {xtype: 'dashboard'},
+        //{xtype: 'dashboard'},
     ],
 
     show: function() {
@@ -30,6 +30,7 @@ Ext.define('Funitect.view.Workspace', {
                 elementKinds.each(function(elementKind) {
                     me.add({xtype: 'elements-tab', elementKind: elementKind, workspace: me});
                 });
+                me.items.first().setActive(true);
             }
         }});
     },
