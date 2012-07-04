@@ -1,0 +1,7 @@
+.comment-text strong {
+    font-weight: bold;
+}
+
+.comment-text li {
+    list-style: square;
+}

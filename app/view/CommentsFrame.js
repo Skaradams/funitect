@@ -16,6 +16,8 @@ Ext.define('Funitect.view.CommentsFrame', {
 
     setComments: function(comments) {
         var me  = this;
+        var converter = new Markdown.Converter();
+
         comments.each(function(comment) {
             if(!Ext.isObject(Ext.getCmp('comment-' + comment.data.id))) {
                 me.add({
@@ -42,7 +44,7 @@ Ext.define('Funitect.view.CommentsFrame', {
                             xtype: 'component',
                             autoEl: {
                                 tag: 'span',
-                                html: comment.data.text,
+                                html: converter.makeHtml(comment.data.text),
                                 cls: 'comment-text',
                             },
                             width: window.innerWidth * 2 / 9,
