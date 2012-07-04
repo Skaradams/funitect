@@ -24,5 +24,4 @@ Ext.define('Funitect.store.Sketches', {
         },
     },
 
-    autoLoad: true,
 });

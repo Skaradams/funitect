@@ -48,15 +48,16 @@ Ext.define('Funitect.view.NewSketchWindow', {
     onUploadResponse: function(result) {
         var me = this;
         var sketch = new Funitect.model.Sketch();
-        console.log(result.url);
         sketch.getProxy().extraParams = {
             element: me.element.data.id,
             src: 'http://' + document.location.host + result.url,
         }
         sketch.save({
             callback: function() {
-                console.log('close');
                 me.close();
+                if (Ext.isFunction(me.next)) {
+                    me.next();
+                }
             }
         });
     },

@@ -3,15 +3,12 @@ import uuid
 import hashlib
 import Image
 
-from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django import http
 
-from tastypie import fields
 from tastypie.resources import ModelResource
 from tastypie.authentication import BasicAuthentication
 from tastypie.authorization import DjangoAuthorization
-from tastypie.constants import ALL, ALL_WITH_RELATIONS
 
 from funitect.service import models
 from funitect import settings
@@ -25,7 +22,8 @@ __all__ = (
     'SketchResource',
 )
 
-@csrf_exempt 
+
+@csrf_exempt
 def upload_sketch(request):
     response = http.HttpResponse(status=200)
     if request.method == 'POST':
@@ -40,12 +38,14 @@ def upload_sketch(request):
             try:
                 image = Image.open(tmp_file_path)
                 image.save(file_path)
-            except:
-                raise http. HttpResponseBadRequest()
+            except Exception, e:
+                raise ValueError(str(e))
             response.write('{"url": "/sketches/%s"}' % file_name)
         else:
-            response.write('{"error": "No sketch file has been given"}' % file_name)
+            response.write(
+                '{"error": "No sketch file has been given"}')
     return response
+
 
 class ResourceAuthentication(BasicAuthentication):
 
@@ -119,11 +119,20 @@ class ElementCommentResource(ModelResource):
         bundle.data['user'] = bundle.obj.user.username
         return bundle
 
+    def hydrate(self, bundle):
+        if bundle.request.user.is_authenticated() \
+                        and bundle.request.method == 'POST':
+            bundle.obj.user = bundle.request.user
+            bundle.obj.element = models.Element.objects.get(
+                id=int(bundle.request.GET['element'])
+            )
+            bundle.obj.text = bundle.request.GET['text']
+        return bundle
+
     def get_object_list(self, request):
         return super(
             ElementCommentResource, self
         ).get_object_list(request).filter(element__id=request.GET['element'])
-
 
 
 class SketchResource(ModelResource):
@@ -141,9 +150,12 @@ class SketchResource(ModelResource):
         return bundle
 
     def hydrate(self, bundle):
-        if bundle.request.user.is_authenticated() and bundle.request.method == 'POST':
+        if bundle.request.user.is_authenticated() \
+                    and bundle.request.method == 'POST':
             bundle.obj.user = bundle.request.user
-            bundle.obj.element = models.Element.objects.get(id=int(bundle.request.GET['element']))
+            bundle.obj.element = models.Element.objects.get(
+                id=int(bundle.request.GET['element'])
+            )
             bundle.obj.src = bundle.request.GET['src']
         return bundle
 
@@ -152,4 +164,3 @@ class SketchResource(ModelResource):
         if request.method == 'GET':
             obj_list = obj_list.filter(element__id=request.GET['element'])
         return obj_list
-

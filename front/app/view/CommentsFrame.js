@@ -1,16 +1,21 @@
 Ext.define('Funitect.view.CommentsFrame', {
-	extend: 'Ext.container.Container',
+    extend: 'Ext.Panel',
 
-	requires: [
-		'Funitect.store.ElementComments',
-	],
+    requires: [
+        'Funitect.store.ElementComments',
+    ],
 
-	xtype: 'comments-frame',
+    xtype: 'comments-frame',
 
-	layout: 'vbox',
+    layout: 'vbox',
 
-	setComments: function(comments) {
-		var me  = this;
+    autoScroll: true,
+
+    width: window.innerWidth / 3,
+    height: window.innerWidth / 5,
+
+    setComments: function(comments) {
+        var me  = this;
         comments.each(function(comment) {
             me.add({
                 xtype: 'container',
@@ -48,5 +53,5 @@ Ext.define('Funitect.view.CommentsFrame', {
                 }
             })
         });
-	}
+    }
 });

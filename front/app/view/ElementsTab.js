@@ -6,6 +6,7 @@ Ext.define('Funitect.view.ElementsTab', {
     	'Funitect.view.ElementTab',
     ],
 
+    
     xtype: 'elements-tab',
     closable: false,
     layout: 'fit',
@@ -50,5 +51,5 @@ Ext.define('Funitect.view.ElementsTab', {
     	});
         this.add(hContainer);
     },
-
+   
 });

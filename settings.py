@@ -103,7 +103,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'funitect.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.abspath(os.path.dirname(__file__)), 'templates')
+    os.path.join(os.path.abspath(os.path.dirname(__file__)), 'front')
 )
 
 INSTALLED_APPS = (

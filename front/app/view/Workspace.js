@@ -1,6 +1,7 @@
 Ext.define('Funitect.view.Workspace', {
     extend: 'Ext.tab.Panel',
     
+    
     requires: [
         'Funitect.view.Dashboard',
         'Funitect.view.ElementsTab',

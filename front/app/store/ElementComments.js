@@ -1,8 +1,7 @@
 Ext.define('Funitect.store.ElementComments', {
     extend: 'Ext.data.Store',
-
     requires: [
-        'Funitect.model.Comment',
+        'Funitect.model.ElementComment',
     ],
 
     constructor: function() {
@@ -12,8 +11,7 @@ Ext.define('Funitect.store.ElementComments', {
         }
     },
 
-    model: 'Funitect.model.Comment',
-
+    model: 'Funitect.model.ElementComment',
 
     proxy: {
         type: 'ajax',
