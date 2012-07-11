@@ -2,6 +2,7 @@ import os
 import uuid
 import hashlib
 import Image
+import json
 
 from django.views.decorators.csrf import csrf_exempt
 from django import http
@@ -20,6 +21,7 @@ __all__ = (
     'ElementResource',
     'ElementCommentResource',
     'SketchResource',
+    'EventKindResource',
 )
 
 
@@ -52,9 +54,10 @@ class ResourceAuthentication(BasicAuthentication):
     def is_authenticated(self, request, **kwargs):
         if request.user.is_authenticated():
             return True
-        return super(
-            ResourceAuthentication, self
-        ).is_authenticated(request, **kwargs)
+        else:
+            return super(
+                ResourceAuthentication, self
+            ).is_authenticated(request, **kwargs)
 
 
 class OnlyUserContentAuthorization(DjangoAuthorization):
@@ -174,3 +177,43 @@ class SketchResource(ModelResource):
         if request.method == 'GET':
             obj_list = obj_list.filter(element__id=request.GET['element'])
         return obj_list
+
+
+class EventKindResource(ModelResource):
+
+    class Meta:
+        queryset = models.EventKind.objects.all()
+        resource_name = 'event-kind'
+        allowed_methods = ['get', 'post', 'put']
+        authentication = ResourceAuthentication()
+        authorization = DjangoAuthorization()
+
+    def dehydrate(self, bundle):
+        json_sentence = json.loads(bundle.obj.sentence)
+        possibilities = {}
+        readable_sentence = ''
+        for part in json_sentence:
+            if len(readable_sentence) > 0:
+                readable_sentence += ' '
+            if isinstance(part, dict):
+                possibilities[part['id']] = []
+                elements = models.Element.objects.filter(
+                    kind__name=part['type']
+                )
+                for element in elements:
+                    possibilities[part['id']].append({
+                        'name': element.name,
+                        'id': element.id,
+                    })
+                readable_sentence += '[%s]' % part['id']
+            else:
+                readable_sentence += part
+        bundle.data['possibilities'] = possibilities
+        bundle.data['sentence'] = json_sentence
+        bundle.data['readableSentence'] = readable_sentence
+        return bundle
+
+    def get_object_list(self, request):
+        return super(
+            EventKindResource, self
+        ).get_object_list(request).filter(game__id=request.GET['game'])

@@ -1,3 +1,4 @@
+import json
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -25,6 +26,7 @@ __all__ = (
 Game related models
 """
 
+
 class Game(models.Model):
     name = models.CharField(max_length=256)
 
@@ -43,7 +45,7 @@ Element related models
 
 
 class ElementKind(models.Model):
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, unique=True)
     game = models.ForeignKey(Game)
 
     def __str__(self):
@@ -78,7 +80,17 @@ Event related models
 
 class EventKind(models.Model):
     game = models.ForeignKey(Game)
-    sentence = models.CharField(max_length=256)
+    sentence = models.CharField(max_length=256, unique=True)
+
+    def __str__(self):
+        return self.sentence
+
+    def save(self):
+        try:
+            json.loads(self.sentence)
+        except Exception, e:
+            raise ValueError('Sentence has to be in json format : %s' % str(e))
+        super(EventKind, self).save()
 
 
 class Event(models.Model):
@@ -87,6 +99,10 @@ class Event(models.Model):
 
 
 class EventElement(models.Model):
+
+    class Meta:
+        unique_together = ('event', 'identity')
+
     event = models.ForeignKey(Event)
     element = models.ForeignKey(Element)
     identity = models.CharField(max_length=32)

@@ -5,6 +5,7 @@ Ext.define('Funitect.view.Workspace', {
     requires: [
         'Funitect.view.Dashboard',
         'Funitect.view.ElementsTab',
+        'Funitect.view.EventsTab',
         'Funitect.store.ElementKinds',
     ],
 
@@ -30,6 +31,7 @@ Ext.define('Funitect.view.Workspace', {
                 elementKinds.each(function(elementKind) {
                     me.add({xtype: 'elements-tab', elementKind: elementKind, workspace: me});
                 });
+                me.add({xtype: 'events-tab'});
                 me.items.first().show();
             }
         }});
