@@ -45,7 +45,7 @@ Element related models
 
 
 class ElementKind(models.Model):
-    name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=128, unique=True)
     game = models.ForeignKey(Game)
 
     def __str__(self):
@@ -80,7 +80,7 @@ Event related models
 
 class EventKind(models.Model):
     game = models.ForeignKey(Game)
-    sentence = models.CharField(max_length=256, unique=True)
+    sentence = models.CharField(max_length=256)
 
     def __str__(self):
         return self.sentence
