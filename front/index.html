@@ -1,11 +1,28 @@
 <html>
     <head>
         <title>Funitect: Be the architect of fun !</title>
-        <link rel="stylesheet" type="text/css" href="/front/resources/css/markdown-style.css">
-        <link rel="stylesheet" type="text/css" href="/front/resources/css/ext-neptune.css">
-        <script type="text/javascript" src="/front/libs/ext-all.js"></script>
-        <script type="text/javascript" src="/front/libs/Markdown.Converter.js"></script>
-        <script type="text/javascript" src="/front/app.js"></script>
+        <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/onilesca" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" media="screen" href="/front/css/jquery-ui.css" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="/front/css/markdown-style.css">
+        <link rel="stylesheet" type="text/css" href="/front/css/style.css">
+        <script src="/front/lib/jquery.js"></script>
+        <script src="/front/lib/require.js"></script>
+        <script>
+            require(['/front/app.js'], function(app) {
+                app.config = {
+                    modules: [
+                        {% for module in modules %}
+                            '{{module}}',
+                        {% endfor %}
+                    ],
+                    templates: [
+                        {% for template in templates %}
+                            '{{template}}',
+                        {% endfor %}
+                    ],
+                };
+                app.load();
+            });
+        </script>
     </head>
-    <body></body>
 </html>
