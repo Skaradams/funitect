@@ -10,7 +10,7 @@ define(function() {
         ],
 
         didInsertElement: function() {
-            this.$('.workspace').tabs();
+            this.$('.workspace').tabs({closable: true});
         },
 
 

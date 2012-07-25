@@ -1,5 +1,99 @@
 /* Palette : http://www.colourlovers.com/palette/847972/The_Longing */
 
+@font-face {
+    font-family: 'Onilesca';
+    src: url('/front/font/OnilescaRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaRegular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaItalic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaBoldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaBold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaBlackItalic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaBlack.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaBoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaBlackItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Alegreya';
+    src: url('/front/font/AlegreyaBlack.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+
 .viewport {
    position: absolute;
    left: 0;
@@ -10,7 +104,7 @@
    padding: 0;
    font-weight: normal;
    font-style: normal;
-   font-family: "Helvetica Neue", Arial, Verdana, sans-serif;
+   font-family: "Alegreya";
 }
 
 /* Header */
@@ -72,6 +166,8 @@
    border-top-left-radius: 0;
    border-bottom: 0;
    border-color: #796054;
+   border-right: 0;
+   border-left: 0;
 }
 
 .ui-tabs-nav {
@@ -90,7 +186,7 @@
    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#593a2c', endColorstr='#565656',GradientType=0 ); /* IE6-9 */
    border-color: #796054;
 }
-.ui-tab-panel {
+.ui-tabs-panel {
    border-right: 0;
    border-left: 0;
 }
@@ -98,6 +194,7 @@
 .workspace .ui-widget-header li.ui-state-default {
     background: #5b4d46;
     border-color: #77571d;
+    font-weight: normal;
 }
 
 .workspace .ui-widget-header li.ui-state-default a span {
@@ -111,5 +208,5 @@
 }
 
 .workspace .ui-widget-header li.ui-tabs-selected a span {
-    color: black;
+    color: #442435;
 }
